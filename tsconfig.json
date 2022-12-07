@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es6",
+      "rootDir": "./",
+      "outDir": "out",
+      "esModuleInterop": true
+    }
+}
+
+// https://www.split.io/blog/node-js-typescript-express-tutorial/
