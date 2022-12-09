@@ -42,15 +42,23 @@ export default function parseEssay(essayStr: string) {
             essay.push([]);
     });
 
+    if (essay[essay.length-1].length === 0)
+        essay.pop();
+
     return {wordCnt: wordCnt, essay: essay};
 }
 
-/*
+export function unParseEssay(essay: Token[][]): string {
+    let essayStr = "";
+    essay.forEach((sentence) => sentence.forEach((word) => essayStr += word.value));
+    return essayStr;
+}
+
 const testEssay =
 `This is my very good essay! You might ask me why I have written this essay. Well, I simply don't know.
 Maybe you do? Nevertheless, I still want to tell you this: I still don't know what I'm writing; I don't think anyone knows what they're doing anyway.
 For 15 years, I have been clueless, writing short-term essays and this and that. Anyway, see you later!`;
 
 const {wordCnt, essay} = parseEssay(testEssay);
-console.log(wordCnt, essay);
-*/
+console.log(essay);
+console.log(unParseEssay(essay));
