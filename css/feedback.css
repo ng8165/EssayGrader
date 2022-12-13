@@ -1,0 +1,17 @@
+.essay {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.essay > span {
+    /* sentence */
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    white-space: break-spaces;
+}
+
+.highlight {
+    background-color: yellow;
+}

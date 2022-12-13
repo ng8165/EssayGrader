@@ -1,6 +1,7 @@
 type Token = {
     value: string;
     type: "word" | "phrase" | "sentence" | "space";
+    problem: string[];
 };
 
 function scan(essayStr): Token[] {
@@ -8,14 +9,14 @@ function scan(essayStr): Token[] {
 
     [...essayStr].forEach((c) => {
         if (/[.?!]/.test(c)) {
-            tokens.push({ value: c, type: "sentence" });
+            tokens.push({ value: c, type: "sentence", problem: [] });
         } else if (/[,:;]/.test(c)) {
-            tokens.push({ value: c, type: "phrase" });
+            tokens.push({ value: c, type: "phrase", problem: [] });
         } else if (/\s/.test(c)) {
-            tokens.push({ value: c, type: "space" });
+            tokens.push({ value: c, type: "space", problem: [] });
         } else {
             if (tokens.length === 0 || tokens[tokens.length-1].type !== "word") {
-                tokens.push({ value: c, type: "word" });
+                tokens.push({ value: c, type: "word", problem: [] });
             } else {
                 tokens[tokens.length-1].value += c;
             }
@@ -54,6 +55,7 @@ export function unParseEssay(essay: Token[][]): string {
     return essayStr;
 }
 
+/*
 const testEssay =
 `This is my very good essay! You might ask me why I have written this essay. Well, I simply don't know.
 Maybe you do? Nevertheless, I still want to tell you this: I still don't know what I'm writing; I don't think anyone knows what they're doing anyway.
@@ -62,3 +64,4 @@ For 15 years, I have been clueless, writing short-term essays and this and that.
 const {wordCnt, essay} = parseEssay(testEssay);
 console.log(essay);
 console.log(unParseEssay(essay));
+*/
