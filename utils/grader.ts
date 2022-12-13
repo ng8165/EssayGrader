@@ -1,4 +1,4 @@
-import parseEssay from "./parser";
+import { parseEssay, getHTML } from "./parser";
 
 import wordList from "wordlist-english";
 const dictionary: string[] = wordList["english"];
@@ -28,7 +28,6 @@ const prepositionCheck = (word: string): boolean => binarySearch(prepositions, w
 
 export default function gradeEssay(essayStr: string) {
     const {wordCnt, essay} = parseEssay(essayStr);
-    console.log(essay);
     let score = 100;
 
     // nasty nonos: 1%
@@ -72,7 +71,7 @@ export default function gradeEssay(essayStr: string) {
 
     return {
         score: Math.max(-200, score),
-        essay: essay
+        essay: getHTML(essay)
     };
 }
 

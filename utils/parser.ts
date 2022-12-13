@@ -26,7 +26,7 @@ function scan(essayStr): Token[] {
     return tokens;
 }
 
-export default function parseEssay(essayStr: string) {
+export function parseEssay(essayStr: string) {
     const tokens = scan(essayStr);
 
     let wordCnt = 0;
@@ -49,10 +49,19 @@ export default function parseEssay(essayStr: string) {
     return {wordCnt: wordCnt, essay: essay};
 }
 
-export function unParseEssay(essay: Token[][]): string {
+export function getHTML(essay: Token[][]): string {
     let essayStr = "";
-    essay.forEach((sentence) => sentence.forEach((word) => essayStr += word.value));
-    return essayStr;
+
+    essay.forEach((sentence) => sentence.forEach((word) => {
+        if (word.problem.length > 0) {
+            const problems = word.problem.join(", ");
+            essayStr += `<span class="highlight" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="${problems}">${word.value}</span>`
+        } else {
+            essayStr += word.value;
+        }
+    }));
+
+    return `<div class="essay">${essayStr}</div>`;
 }
 
 /*
