@@ -11,7 +11,17 @@
 <body class="p-3">
     <h1>Essay Grader</h1>
     
-    <p><strong>Grade: <%= score %>%</strong></p>
+    <h3 class="mt-3">Overall Feedback:</h3>
+    <ul>
+        <li><%= feedback.nastyNoNos %> Nasty No-Nos (-1% each)</li>
+        <li><%= feedback.spelling %> Spelling Errors (-1% each)</li>
+        <li><%= feedback.sameStart %> Sentence Pairs Start With The Same Word (-3% each)</li>
+        <li><%= feedback.prepositionEnd %> Sentences End With A Preposition (-5% each)</li>
+        <li>Word Count: <%= feedback.wordCnt %></li>
+        <li><strong>Final Score: <%= feedback.score %></strong></li>
+    </ul>
+
+    <p>Hover over highlighted words below to receive more detailed feedback.</p>
 
     <%- essay %>
 
