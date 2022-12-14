@@ -14,4 +14,4 @@ app.post("/", (req: Request, res: Response) => {
     res.render("feedback", gradeEssay(req.body.essay));
 });
 
-app.listen(2020);
+app.listen(process.env.PORT || 2020);
