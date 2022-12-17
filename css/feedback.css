@@ -2,9 +2,9 @@
     white-space: break-spaces;
     padding: 1em;
     border-left: 5px solid lightgray;
-    cursor: pointer;
 }
 
 .highlight {
     background-color: yellow;
+    cursor: pointer;
 }

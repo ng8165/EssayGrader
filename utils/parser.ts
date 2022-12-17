@@ -1,6 +1,6 @@
 type Token = {
     value: string;
-    type: "word" | "phrase" | "sentence" | "space";
+    type: "word" | "phrase" | "sentence" | "space" | "unknown";
     problems: string[];
 };
 
@@ -10,16 +10,16 @@ function scan(essayStr): Token[] {
     [...essayStr].forEach((c) => {
         if (/[.?!]/.test(c)) {
             tokens.push({ value: c, type: "sentence", problems: [] });
-        } else if (/[,:;]/.test(c)) {
-            tokens.push({ value: c, type: "phrase", problems: [] });
         } else if (/\s/.test(c)) {
             tokens.push({ value: c, type: "space", problems: [] });
-        } else {
+        } else if (/\w|[-'‘’]/.test(c)) {
             if (tokens.length === 0 || tokens[tokens.length-1].type !== "word") {
                 tokens.push({ value: c, type: "word", problems: [] });
             } else {
                 tokens[tokens.length-1].value += c;
             }
+        } else {
+            tokens.push({value: c, type: "unknown", problems: [] })
         }
     });
 
@@ -63,10 +63,3 @@ export function getHTML(essay: Token[][]): string {
 
     return `<div class="essay">${essayStr}</div>`;
 }
-
-/*
-const testEssay =
-`This is my very good essay! You might ask me why I have written this essay. Well, I simply don't know.
-Maybe you do? Nevertheless, I still want to tell you this: I still don't know what I'm writing; I don't think anyone knows what they're doing anyway.
-For 15 years, I have been clueless, writing short-term essays and this and that. Anyway, see you later!`;
-*/
