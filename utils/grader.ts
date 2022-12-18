@@ -98,6 +98,7 @@ export default function gradeEssay(essayStr: string) {
     else feedback.score = `${score}% was rounded up to -200%`;
 
     return {
+        score: Math.max(-200, score),
         essay: getHTML(essay),
         feedback: feedback
     };

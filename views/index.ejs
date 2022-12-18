@@ -11,8 +11,14 @@
     <h1>Essay Grader</h1>
 
     <form action="/" method="post">
+        <div class="mb-3">
+            <label for="name">Enter your name:</label>
+            <input type="text" name="name" id="name" required>
+        </div>
+
         <label for="essay">Submit your essay here:</label>
-        <textarea name="essay" id="essay" class="d-block w-100 my-3" rows="10"></textarea>
+        <textarea name="essay" id="essay" class="d-block w-100 my-3" rows="10" required></textarea>
+
         <button role="submit" class="btn btn-primary">Submit</button>
     </form>
 </body>

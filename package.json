@@ -19,6 +19,7 @@
   "dependencies": {
     "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "mongoose": "^6.8.0",
     "wordlist-english": "^1.2.1"
   }
 }
