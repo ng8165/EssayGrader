@@ -1,0 +1,31 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.essay {
+    white-space: break-spaces;
+    padding: 1em;
+    border-left: 5px solid lightgray;
+}
+
+.highlight {
+    background-color: yellow;
+    cursor: pointer;
+}
+
+.list-group-item .btn.btn-danger {
+    border-radius: 0;
+}
+
+.list-group-item:has(.btn.btn-danger):first-child .btn.btn-danger {
+    border-top-right-radius: 0.375rem;
+}
+
+.list-group-item:has(.btn.btn-danger):last-child .btn.btn-danger {
+    border-bottom-right-radius: 0.375rem;
+}

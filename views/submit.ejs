@@ -1,0 +1,21 @@
+<%- include("partials/header.ejs") %>
+
+<h2>Submit Essay</h2>
+
+<div>Enter your name, paste your essay, pray for mercy, then submit!</div>
+
+<hr class="my-4" />
+
+<form action="/" method="post">
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+    </div>
+
+    <label for="essay">Essay:</label>
+    <textarea name="essay" id="essay" class="d-block w-100 my-3" rows="10" required></textarea>
+
+    <button role="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<%- include("partials/footer.ejs") %>

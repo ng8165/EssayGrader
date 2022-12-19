@@ -13,12 +13,15 @@ const Grade = model<Grade>("grade", new Schema<Grade>({
     score: { type: Number, required: true }
 }));
 
-export async function getGrades(): Promise<Grade[]> {
-    const grades = await Grade.find();
-    return grades.map(({name, score}) => ({name, score}));
+export async function getGrades() {
+    return await Grade.find();
 }
 
-export function saveGrade(name: string, score: number) {
+export async function saveGrade(name: string, score: number) {
     const grade = new Grade({name, score});
-    grade.save();
+    await grade.save();
+}
+
+export async function deleteGrade(id: string) {
+    await Grade.deleteOne({ _id: id });
 }
