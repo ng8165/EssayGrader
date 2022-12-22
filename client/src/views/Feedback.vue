@@ -27,11 +27,11 @@ export default {
 </script>
 
 <template>
-    <h2>Feedback</h2>
+    <h2 class="mb-4">Feedback</h2>
 
     <div v-if="isLoading">Loading...</div>
     <div v-else>
-        <ul>
+        <ul class="ml-4">
             <li>{{ feedback[0] }} Nasty No-Nos (-1% each)</li>
             <li>{{ feedback[1] }} Spelling Errors (-1% each)</li>
             <li>{{ feedback[2] }} Sentence Pairs Start With The Same Word (-3% each)</li>
@@ -40,8 +40,11 @@ export default {
             <li><strong>Final Score: {{ feedback[5] }}% {{ feedback[5] < -200 ? "was rounded to -200%" : "" }}</strong></li>
         </ul>
 
+        <hr class="border-neutral-500 my-4" />
+
         <p>Hover over highlighted words below to receive more detailed feedback.</p>
-        <div v-html="essay"></div>
+
+        <div v-html="essay" class="border-l-4 border-neutral-300 p-4 mt-4"></div>
     </div>
 </template>
 
