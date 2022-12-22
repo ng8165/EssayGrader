@@ -49,17 +49,19 @@ export function parseEssay(essayStr: string) {
     return {wordCnt: wordCnt, essay: essay};
 }
 
-export function getHTML(essay: Token[][]): string {
-    let essayStr = "";
+export function compressEssay(essay2D: Token[][]): string[][] {
+    const essay = essay2D.flat();
+    const compressed = [];
 
-    essay.forEach((sentence) => sentence.forEach((word) => {
-        if (word.problems.length > 0) {
-            const problems = word.problems.join(", ");
-            essayStr += `<span class="highlight" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="${problems}">${word.value}</span>`
+    essay.forEach(({value, problems}, index) => {
+        if (index === 0 || problems.length > 0 || essay[index-1].problems.length > 0) {
+            compressed.push([value, problems.join(", ")]);
         } else {
-            essayStr += word.value;
+            const prev = compressed.pop();
+            prev[0] += value;
+            compressed.push(prev);
         }
-    }));
+    });
 
-    return `<div class="essay">${essayStr}</div>`;
+    return compressed;
 }

@@ -1,4 +1,4 @@
-import { parseEssay, getHTML } from "./parser";
+import { parseEssay, compressEssay } from "./parser";
 
 import wordList from "wordlist-english";
 const dictionary: string[] = wordList["english"];
@@ -85,16 +85,7 @@ export default function gradeEssay(essayStr: string) {
 
     return {
         score: Math.max(-200, feedback[5]),
-        essay: getHTML(essay),
+        essay: compressEssay(essay),
         feedback
     };
 }
-
-/*
-const testEssay =
-`This is my very good essay! You might ask me why I have written this essay. Well, I simply don't know.
-Maybe you do? Nevertheless, I still want to tell you this: I still don't know what I'm writing; I don't think anyone knows what they're doing anyway.
-For 15 years, I have been clueless, writing short-term essays and this and that. Anyway, see you later!`;
-
-console.log(gradeEssay(testEssay));
-*/

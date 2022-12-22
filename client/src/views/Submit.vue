@@ -15,9 +15,10 @@ export default {
                 body: JSON.stringify({ name: name.value, essay: essay.value })
             });
 
-            const { id } = await res.json();
+            const data = await res.json();
 
-            if (res.ok) router.push(`/feedback/${id}`);
+            if (res.ok) router.push(`/feedback/${data.id}`);
+            else alert(data.message);
         }
 
         return { name, essay, sendGrade };

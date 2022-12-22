@@ -29,6 +29,6 @@ export default {
             <input name="name" id="name" required v-model="name" />
         </div>
 
-        <button type="submit" class="block bg-blue-500 text-white">Submit</button>
+        <button type="submit" class="block bg-blue-500 text-white">Find</button>
     </form>
 </template>

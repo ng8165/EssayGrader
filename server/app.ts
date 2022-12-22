@@ -19,8 +19,9 @@ app.post("/", (req: Request, res: Response) => {
     });
 });
 
-app.get("/admin", (req: Request, res: Response) => {
+app.get("/grades", (req: Request, res: Response) => {
     db.getGrades().then((grades) => {
+        if (grades == null) throw Error("grades not found");
         res.status(200).json(grades);
     }).catch((err) => {
         console.error("GET /admin", err.message);
@@ -32,6 +33,7 @@ app.get("/grade/id/:id", (req: Request, res: Response) => {
     const { id } = req.params;
 
     db.getGrade(id).then((grade) => {
+        if (grade == null) throw Error("grade not found");
         res.status(200).json(grade);
     }).catch((err) => {
         console.error(`GET /grade/id/${id}: `, err.message);

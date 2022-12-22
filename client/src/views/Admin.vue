@@ -7,7 +7,7 @@ export default {
         const grades = ref();
 
         async function fetchData() {
-            const res = await fetch("http://localhost:2020/admin");
+            const res = await fetch("http://localhost:2020/grades");
             grades.value = await res.json();
             isLoading.value = false;
         }
@@ -15,6 +15,7 @@ export default {
         async function deleteGrade(id: string) {
             const res = await fetch(`http://localhost:2020/grade/id/${id}`, { method: "DELETE" });
             if (res.ok) fetchData();
+            else alert((await res.json()).message);
         }
 
         fetchData();

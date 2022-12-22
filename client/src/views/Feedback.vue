@@ -50,19 +50,20 @@ export default {
 
         <p>Hover over highlighted words below to receive more detailed feedback.</p>
 
-        <div v-html="essay" class="border-l-4 border-neutral-300 p-4 mt-4"></div>
+        <div class="border-l-4 border-neutral-300 p-4 mt-4">
+            <span v-for="token in essay" :data-tooltip="token[1]" :class="token[1].length > 0 ? 'problem' : ''">{{ token[0] }}</span>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.essay {
-    white-space: break-spaces;
-    padding: 1em;
-    border-left: 5px solid lightgray;
+.problem {
+    @apply bg-[#FFFF00] relative cursor-pointer;
 }
 
-.highlight {
-    background-color: yellow;
-    cursor: pointer;
+.problem:hover::before {
+    content: attr(data-tooltip);
+    @apply rounded p-1 bg-gray-800 text-white text-sm text-center w-min
+           absolute left-1/2 -translate-x-1/2 -translate-y-full;
 }
 </style>

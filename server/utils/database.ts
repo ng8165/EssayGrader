@@ -6,15 +6,15 @@ connect("mongodb+srv://ng8165:mongodb@cluster0.m0gqwdv.mongodb.net/essay-grader"
 type Grade = {
     name: string;
     score: number;
-    feedback: (string | number)[];
-    essay: string;
+    feedback: number[];
+    essay: string[][];
 };
 
 const Grade = model<Grade>("grade", new Schema<Grade>({
-    name: { type: String, required: true },
-    score: { type: Number, required: true },
-    feedback: { type: Array, required: true },
-    essay: { type: String, required: true },
+    name: String,
+    score: Number,
+    feedback: [Number],
+    essay: [[String]]
 }));
 
 export async function getGrades() {
@@ -29,12 +29,12 @@ export async function getID(name: string) {
     return (await Grade.findOne({ name }).select("")).id;
 }
 
-export async function saveGrade(name: string, score: number, feedback: number[], essay: string): Promise<String> {
+export async function saveGrade(name: string, score: number, feedback: number[], essay: string[][]): Promise<String> {
     const grade = new Grade({name, score, feedback, essay});
     const { id } = await grade.save();
     return id;
 }
 
 export async function deleteGrade(id: string) {
-    await Grade.deleteOne({ id });
+    await Grade.findByIdAndDelete(id);
 }
