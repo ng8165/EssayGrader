@@ -9,8 +9,10 @@ export default {
 
         async function findID() {
             const res = await fetch(`http://localhost:2020/grade/name/${name.value}`);
-            const { id } = await res.json();
-            if (res.ok) router.push(`/feedback/${id}`);
+            const data = await res.json();
+
+            if (res.ok) router.push(`/feedback/${data.id}`);
+            else alert(data.message);
         }
 
         return { name, findID };

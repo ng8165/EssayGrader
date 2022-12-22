@@ -14,7 +14,8 @@ app.post("/", (req: Request, res: Response) => {
     db.saveGrade(name, score, feedback, essay).then((id) => {
         res.status(200).json({ id });
     }).catch((err) => {
-        res.status(500).json({ message: err.message })
+        console.error("POST /", err.message);
+        res.status(500).json({ message: "Submitting your essay for grading failed. Please try again." })
     });
 });
 
@@ -22,31 +23,41 @@ app.get("/admin", (req: Request, res: Response) => {
     db.getGrades().then((grades) => {
         res.status(200).json(grades);
     }).catch((err) => {
-        res.status(500).json({ message: err.message })
+        console.error("GET /admin", err.message);
+        res.status(500).json({ message: "Getting the students' essays failed. Please try again." })
     });
 });
 
 app.get("/grade/id/:id", (req: Request, res: Response) => {
-    db.getGrade(req.params.id).then((grade) => {
+    const { id } = req.params;
+
+    db.getGrade(id).then((grade) => {
         res.status(200).json(grade);
     }).catch((err) => {
-        res.status(500).json({ message: err.message })
+        console.error(`GET /grade/id/${id}: `, err.message);
+        res.status(500).json({ message: `We couldn't find ID ${id} in our database. Please try again.` })
     });
 });
 
 app.get("/grade/name/:name", (req: Request, res: Response) => {
-    db.getID(req.params.name).then((id) => {
+    const { name } = req.params;
+
+    db.getID(name).then((id) => {
         res.status(200).json({ id });
     }).catch((err) => {
-        res.status(500).json({ message: err.message })
+        console.error(`GET /grade/name/${name}: `, err.message);
+        res.status(500).json({ message: `We couldn't find ${name}'s essay. Please try again.` })
     });
 })
 
 app.delete("/grade/id/:id", (req: Request, res: Response) => {
-    db.deleteGrade(req.params.id).then(() => {
+    const { id } = req.params;
+
+    db.deleteGrade(id).then(() => {
         res.status(204).end();
     }).catch((err) => {
-        res.status(500).json({ message: err.message })
+        console.error(`DELETE /grade/id/${id}: `, err.message);
+        res.status(500).json({ message: `Deleting the essay with ID ${id} failed. Please try again.` })
     });
 });
 

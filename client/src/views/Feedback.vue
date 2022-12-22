@@ -1,4 +1,5 @@
 <script lang="ts">
+import router from "@/router";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
@@ -13,9 +14,14 @@ export default {
         async function fetchData() {
             const res = await fetch(`http://localhost:2020/grade/id/${id}`);
             const { feedback: essayFeedback, essay: essayHTML } = await res.json();
-            feedback.value = essayFeedback;
-            essay.value = essayHTML;
-            isLoading.value = false;
+
+            if (res.ok) {
+                feedback.value = essayFeedback;
+                essay.value = essayHTML;
+                isLoading.value = false;
+            } else {
+                router.replace("/404");
+            }
         }
 
         fetchData();
