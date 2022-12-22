@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #app {
+    @apply h-full;
+}
+
+#app {
+    @apply flex flex-col;
+}
+
+h2 {
+    @apply text-2xl font-bold;
+}
+
+svg {
+    @apply inline-block;
+}
+
+input, textarea {
+    @apply border border-neutral-700 rounded p-1;
+}
+
+button {
+    @apply px-4 py-2 rounded;
+}
+
+ul {
+    @apply list-disc;
+}
+
+.list {
+    @apply list-none;
+}
+
+.list > li {
+    @apply border border-b-0 border-neutral-500;
+}
+
+.list > li:first-child {
+    @apply rounded-t;
+}
+
+.list > li:last-child {
+    @apply border-b rounded-b;
+}
+
+.list > li button {
+    @apply rounded-none;
+}
+
+.list > li:first-child button.bg-red-500 {
+    @apply rounded-tr;
+}
+
+.list > li:last-child button.bg-red-500 {
+    @apply rounded-br;
+}

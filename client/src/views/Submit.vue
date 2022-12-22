@@ -26,17 +26,17 @@ export default {
 </script>
 
 <template>
-    <h2 class="mb-4">Submit Essay</h2>
+    <h2 class="mb-6">Submit Essay</h2>
 
     <form @submit.prevent="sendGrade">
-        <div class="mb-3">
-            <label for="name" class="me-1">Name:</label>
+        <div class="mb-4">
+            <label for="name" class="mr-1">Name:</label>
             <input name="name" id="name" required v-model="name" />
         </div>
 
         <label for="essay">Essay:</label>
-        <textarea name="essay" id="essay" class="d-block w-100 mt-2 mb-3" rows="10" required v-model="essay"></textarea>
+        <textarea name="essay" id="essay" class="block w-full mt-1 mb-4" rows="10" required v-model="essay"></textarea>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="block bg-blue-500 text-white">Submit</button>
     </form>
 </template>
