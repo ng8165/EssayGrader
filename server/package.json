@@ -1,7 +1,7 @@
 {
-  "name": "essay-grader",
+  "name": "essay-grader-server",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
     "dev": "nodemon app.ts",
     "build": "tsc --project ./"
@@ -17,7 +17,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "ejs": "^3.1.8",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^6.8.0",
     "wordlist-english": "^1.2.1"

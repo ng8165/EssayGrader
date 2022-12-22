@@ -1,3 +1,14 @@
+<script setup lang="ts">
+    import { RouterLink, RouterView } from "vue-router";
+</script>
+
+<template>
+    <nav class="navbar navbar-dark bg-primary">
+        <router-link to="/" class="navbar-brand ms-3">Essay Grader</router-link>
+    </nav>
+
+    <main class="p-3 flex-grow-1">
+        <RouterView />
     </main>
 
     <footer class="text-center text-muted py-3">
@@ -7,5 +18,5 @@
         </svg>
         by Nelson Gou.
     </footer>
-</body>
-</html>
+</template>
+    
