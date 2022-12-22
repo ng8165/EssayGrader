@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
@@ -11,7 +11,7 @@ export default {
         const essay = ref("");
 
         async function fetchData() {
-            const res = await fetch(`http://localhost:2020/grade/${id}`);
+            const res = await fetch(`http://localhost:2020/grade/id/${id}`);
             const { feedback: essayFeedback, essay: essayHTML } = await res.json();
             feedback.value = essayFeedback;
             essay.value = essayHTML;
