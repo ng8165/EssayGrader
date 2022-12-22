@@ -29,21 +29,14 @@ const prepositionCheck = (word: string): boolean => binarySearch(prepositions, w
 export default function gradeEssay(essayStr: string) {
     const {wordCnt, essay} = parseEssay(essayStr);
 
-    let score = 100;
-    const feedback = {
-        nastyNoNos: 0,
-        spelling: 0,
-        sameStart: 0,
-        prepositionEnd: 0,
-        wordCnt: "",
-        score: ""
-    };
+    const feedback = [0, 0, 0, 0, wordCnt, 100];
+    // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
 
     // nasty nonos: 1%
     essay.forEach((sentence) => sentence.forEach((word) => {
         if (word.type === "word" && nastyCheck(word.value)) {
-            score--;
-            feedback.nastyNoNos++;
+            feedback[5]--; // score
+            feedback[0]++; // nasty no nos
             word.problems.push("Nasty No-No (-1%)")
         }
     }));
@@ -51,8 +44,8 @@ export default function gradeEssay(essayStr: string) {
     // correct spelling: 1%
     essay.forEach((sentence) => sentence.forEach((word) => {
         if (word.type === "word" && !spellcheck(word.value)) {
-            score--;
-            feedback.spelling++;
+            feedback[5]--; // score
+            feedback[1]++; // spelling
             word.problems.push("Misspelled Word (-1%)")
         }
     }));
@@ -67,8 +60,8 @@ export default function gradeEssay(essayStr: string) {
     for (let i=0; i<firstWords.length; i++) {
         for (let j=i+1; j<firstWords.length; j++) {
             if (firstWords[i].value === firstWords[j].value && j-i < 3) {
-                score -= 3;
-                feedback.sameStart++;
+                feedback[5] -= 3; // score
+                feedback[2]++; // same starting word
                 firstWords[j].problems.push("Sentence Starts With The Same Word (-3%)");
             }
         }
@@ -80,27 +73,20 @@ export default function gradeEssay(essayStr: string) {
         while (i>=0 && sentence[i].type !== "word") i--;
 
         if (prepositionCheck(sentence[i].value)) {
-            score -= 5;
-            feedback.prepositionEnd++;
+            feedback[5] -= 5; // score
+            feedback[3]++; // ending with preposition
             sentence[i].problems.push("Sentence Ends With Preposition (-5%)")
         }
     });
 
     // word count restrictions: 50%
-    if (wordCnt < 500 || wordCnt > 1000) {
-        score -= 50;
-        feedback.wordCnt = `${wordCnt} words — Too ${wordCnt < 500 ? "Short" : "Long"} (-50%)`;
-    } else {
-        feedback.wordCnt = `${wordCnt} words — Good`;
-    }
-
-    if (score >= -200) feedback.score = `${score}%`;
-    else feedback.score = `${score}% was rounded up to -200%`;
+    if (wordCnt < 500 || wordCnt > 1000)
+        feedback[5] -= 50; // score
 
     return {
-        score: Math.max(-200, score),
+        score: Math.max(-200, feedback[5]),
         essay: getHTML(essay),
-        feedback: feedback
+        feedback
     };
 }
 
