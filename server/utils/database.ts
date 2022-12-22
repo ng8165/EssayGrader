@@ -18,7 +18,8 @@ const Grade = model<Grade>("grade", new Schema<Grade>({
 }));
 
 export async function getGrades() {
-    return await Grade.find();
+    const grades = await Grade.find();
+    return grades.map(({name, score, id}) => ({name, score, id}));
 }
 
 export async function getGrade(id: string) {
