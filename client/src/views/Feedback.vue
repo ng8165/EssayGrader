@@ -2,6 +2,7 @@
 import router from "@/router";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import Tooltip from "../components/Tooltip.vue";
 
 export default {
     setup() {
@@ -28,6 +29,9 @@ export default {
 
         // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
         return { isLoading, feedback, essay };
+    },
+    components: {
+        Tooltip
     }
 }
 </script>
@@ -51,19 +55,10 @@ export default {
         <p>Hover over highlighted words below to receive more detailed feedback.</p>
 
         <div class="border-l-4 border-neutral-300 p-4 mt-4">
-            <span v-for="token in essay" :data-tooltip="token[1]" :class="token[1].length > 0 ? 'problem' : ''">{{ token[0] }}</span>
+            <template v-for="token in essay">
+                <Tooltip v-if="token[1].length > 0" placement="top" :title="token[1]" highlight>{{ token[0] }}</Tooltip>
+                <span v-else>{{ token[0] }}</span>
+            </template>
         </div>
     </div>
 </template>
-
-<style scoped>
-.problem {
-    @apply bg-[#FFFF00] relative cursor-pointer;
-}
-
-.problem:hover::before {
-    content: attr(data-tooltip);
-    @apply rounded p-1 bg-gray-800 text-white text-sm text-center w-min
-           absolute left-1/2 -translate-x-1/2 -translate-y-full;
-}
-</style>
