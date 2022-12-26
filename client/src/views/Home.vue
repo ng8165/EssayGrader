@@ -1,41 +1,32 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Button from "../components/Button.vue";
 
-export default {
-    setup() {
-        const submitName = ref("");
-        const submitEssay = ref("");
-        const findName = ref("");
-        const router = useRouter();
+const submitName = ref("");
+const submitEssay = ref("");
+const findName = ref("");
+const router = useRouter();
 
-        async function sendGrade() {
-            const res = await fetch("http://localhost:2020/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: submitName.value, essay: submitEssay.value })
-            });
+async function sendGrade() {
+    const res = await fetch("http://localhost:2020/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: submitName.value, essay: submitEssay.value })
+    });
 
-            const data = await res.json();
+    const data = await res.json();
 
-            if (res.ok) router.push(`/feedback/${data.id}`);
-            else alert(data.message);
-        }
+    if (res.ok) router.push(`/feedback/${data.id}`);
+    else alert(data.message);
+}
 
-        async function findID() {
-            const res = await fetch(`http://localhost:2020/grade/name/${findName.value}`);
-            const data = await res.json();
+async function findID() {
+    const res = await fetch(`http://localhost:2020/grade/name/${findName.value}`);
+    const data = await res.json();
 
-            if (res.ok) router.push(`/feedback/${data.id}`);
-            else alert(data.message);
-        }
-
-        return { submitName, submitEssay, findName, sendGrade, findID };
-    },
-    components: {
-        Button
-    }
+    if (res.ok) router.push(`/feedback/${data.id}`);
+    else alert(data.message);
 }
 </script>
 

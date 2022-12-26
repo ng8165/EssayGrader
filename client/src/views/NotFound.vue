@@ -1,12 +1,6 @@
-<script lang="ts">
+<script setup lang="ts">
 import { RouterLink } from "vue-router";
 import Button from "../components/Button.vue";
-
-export default {
-    components: {
-        Button
-    }
-}
 </script>
 
 <template>

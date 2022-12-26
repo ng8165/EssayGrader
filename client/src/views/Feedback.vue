@@ -1,39 +1,29 @@
-<script lang="ts">
+<script setup lang="ts">
 import router from "@/router";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import Tooltip from "../components/Tooltip.vue";
 
-export default {
-    setup() {
-        const route = useRoute();
-        const { id } = route.params;
-        const isLoading = ref(true);
-        const feedback = ref([0]);
-        const essay = ref("");
+const route = useRoute();
+const { id } = route.params;
+const isLoading = ref(true);
+const feedback = ref([0]);
+const essay = ref("");
 
-        async function fetchData() {
-            const res = await fetch(`http://localhost:2020/grade/id/${id}`);
-            const { feedback: essayFeedback, essay: essayHTML } = await res.json();
+async function fetchData() {
+    const res = await fetch(`http://localhost:2020/grade/id/${id}`);
+    const { feedback: essayFeedback, essay: essayHTML } = await res.json();
 
-            if (res.ok) {
-                feedback.value = essayFeedback;
-                essay.value = essayHTML;
-                isLoading.value = false;
-            } else {
-                router.replace("/404");
-            }
-        }
-
-        fetchData();
-
-        // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
-        return { isLoading, feedback, essay };
-    },
-    components: {
-        Tooltip
+    if (res.ok) {
+        feedback.value = essayFeedback; // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
+        essay.value = essayHTML;
+        isLoading.value = false;
+    } else {
+        router.replace("/404");
     }
 }
+
+fetchData();
 </script>
 
 <template>

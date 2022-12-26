@@ -1,9 +1,5 @@
-<script lang="ts">
-import { createPopper } from "@popperjs/core";
-
-export default {
-    props: ["color", "type", "padding"]
-}
+<script setup lang="ts">
+const props = defineProps(["color", "type", "padding"]);
 </script>
 
 <template>

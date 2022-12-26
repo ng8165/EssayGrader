@@ -1,32 +1,23 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from "vue";
 import Button from "../components/Button.vue";
 
-export default {
-    setup() {
-        const isLoading = ref(true);
-        const grades = ref();
+const isLoading = ref(true);
+const grades = ref();
 
-        async function fetchData() {
-            const res = await fetch("http://localhost:2020/grades");
-            grades.value = await res.json();
-            isLoading.value = false;
-        }
-
-        async function deleteGrade(id: string) {
-            const res = await fetch(`http://localhost:2020/grade/id/${id}`, { method: "DELETE" });
-            if (res.ok) fetchData();
-            else alert((await res.json()).message);
-        }
-
-        fetchData();
-
-        return { isLoading, grades, deleteGrade, fetchData };
-    },
-    components: {
-        Button
-    }
+async function fetchData() {
+    const res = await fetch("http://localhost:2020/grades");
+    grades.value = await res.json();
+    isLoading.value = false;
 }
+
+async function deleteGrade(id: string) {
+    const res = await fetch(`http://localhost:2020/grade/id/${id}`, { method: "DELETE" });
+    if (res.ok) fetchData();
+    else alert((await res.json()).message);
+}
+
+fetchData();
 </script>
 
 <template>

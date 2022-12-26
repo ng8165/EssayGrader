@@ -1,59 +1,54 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { createPopper } from "@popperjs/core";
 
-export default {
-    props: ["title", "placement", "class", "highlight"],
-    setup(props) {
-        const trigger = ref();
-        const tooltip = ref();
+const props = defineProps(["title", "placement", "class", "highlight"]);
 
-        onMounted(() => {
-            const popper = createPopper(trigger.value, tooltip.value, {
-                placement: props.placement,
-                modifiers: [
-                    {
-                        name: "offset",
-                        options: {
-                            offset: [0, 8],
-                        }
-                    }
-                ]
-            });
+const trigger = ref();
+const tooltip = ref();
 
-            function show() {
-                tooltip.value.setAttribute("data-show", "");
-
-                popper.setOptions((options) => ({
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        { name: "eventListeners", enabled: false }
-                    ]
-                }));
-
-                popper.update();
+onMounted(() => {
+    const popper = createPopper(trigger.value, tooltip.value, {
+        placement: props.placement,
+        modifiers: [
+            {
+                name: "offset",
+                options: {
+                    offset: [0, 8],
+                }
             }
+        ]
+    });
 
-            function hide() {
-                tooltip.value.removeAttribute("data-show");
+    function show() {
+        tooltip.value.setAttribute("data-show", "");
 
-                popper.setOptions((options) => ({
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        { name: "eventListeners", enabled: false }
-                    ]
-                }));
-            }
+        popper.setOptions((options) => ({
+            ...options,
+            modifiers: [
+                ...options.modifiers,
+                { name: "eventListeners", enabled: false }
+            ]
+        }));
 
-            ["mouseenter", "focus"].forEach((event) => trigger.value.addEventListener(event, show));
-            ["mouseleave", "blur"].forEach((event) => trigger.value.addEventListener(event, hide));
-        });
-
-        return { trigger, tooltip };
+        popper.update();
     }
-}
+
+    function hide() {
+        tooltip.value.removeAttribute("data-show");
+
+        popper.setOptions((options) => ({
+            ...options,
+            modifiers: [
+                ...options.modifiers,
+                { name: "eventListeners", enabled: false }
+            ]
+        }));
+    }
+
+    ["mouseenter", "focus"].forEach((event) => trigger.value.addEventListener(event, show));
+    ["mouseleave", "blur"].forEach((event) => trigger.value.addEventListener(event, hide));
+});
 </script>
 
 <template>
