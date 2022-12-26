@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Button from "../components/Button.vue";
 
 export default {
     setup() {
@@ -31,6 +32,9 @@ export default {
         }
 
         return { submitName, submitEssay, findName, sendGrade, findID };
+    },
+    components: {
+        Button
     }
 }
 </script>
@@ -47,7 +51,7 @@ export default {
         <label for="essay">Essay:</label>
         <textarea name="essay" id="essay" class="block w-full mt-1 mb-4" rows="10" required v-model="submitEssay"></textarea>
 
-        <button type="submit" class="block bg-blue-500 text-white">Submit</button>
+        <Button type="submit" color="blue"></Button>
     </form>
 
     <hr class="border-neutral-500 my-6" />
@@ -60,6 +64,6 @@ export default {
             <input name="name" id="name" required v-model="findName" />
         </div>
 
-        <button type="submit" class="block bg-blue-500 text-white">Find</button>
+        <Button type="submit" color="blue">Find</Button>
     </form>
 </template>
