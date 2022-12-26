@@ -2,17 +2,18 @@
 import { ref } from "vue";
 import Button from "../components/Button.vue";
 
+const domain = import.meta.env.PROD ? "https://essay-grader.onrender.com" : "http://localhost:2020";
 const isLoading = ref(true);
 const grades = ref();
 
 async function fetchData() {
-    const res = await fetch("http://localhost:2020/grades");
+    const res = await fetch(`${domain}/grades`);
     grades.value = await res.json();
     isLoading.value = false;
 }
 
 async function deleteGrade(id: string) {
-    const res = await fetch(`http://localhost:2020/grade/id/${id}`, { method: "DELETE" });
+    const res = await fetch(`${domain}/grade/id/${id}`, { method: "DELETE" });
     if (res.ok) fetchData();
     else alert((await res.json()).message);
 }

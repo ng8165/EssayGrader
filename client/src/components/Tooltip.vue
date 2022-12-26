@@ -26,7 +26,6 @@ onMounted(() => {
         popper.setOptions((options) => ({
             ...options,
             modifiers: [
-                ...options.modifiers,
                 { name: "eventListeners", enabled: false }
             ]
         }));
@@ -40,7 +39,6 @@ onMounted(() => {
         popper.setOptions((options) => ({
             ...options,
             modifiers: [
-                ...options.modifiers,
                 { name: "eventListeners", enabled: false }
             ]
         }));

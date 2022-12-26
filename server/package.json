@@ -4,7 +4,7 @@
   "main": "app.ts",
   "scripts": {
     "dev": "nodemon app.ts",
-    "build": "tsc --project ./"
+    "serve": "tsc && node out/app.js"
   },
   "author": "Nelson Gou",
   "license": "ISC",

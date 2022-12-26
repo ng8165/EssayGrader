@@ -4,6 +4,8 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import Tooltip from "../components/Tooltip.vue";
 
+const domain = import.meta.env.PROD ? "https://essay-grader.onrender.com" : "http://localhost:2020";
+console.log(domain);
 const route = useRoute();
 const { id } = route.params;
 const isLoading = ref(true);
@@ -11,7 +13,7 @@ const feedback = ref([0]);
 const essay = ref("");
 
 async function fetchData() {
-    const res = await fetch(`http://localhost:2020/grade/id/${id}`);
+    const res = await fetch(`${domain}/grade/id/${id}`);
     const { feedback: essayFeedback, essay: essayHTML } = await res.json();
 
     if (res.ok) {
