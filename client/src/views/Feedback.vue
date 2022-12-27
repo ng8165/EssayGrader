@@ -5,7 +5,6 @@ import { useRoute } from "vue-router";
 import Tooltip from "../components/Tooltip.vue";
 
 const domain = import.meta.env.PROD ? "https://essay-grader.onrender.com" : "http://localhost:2020";
-console.log(domain);
 const route = useRoute();
 const { id } = route.params;
 const isLoading = ref(true);

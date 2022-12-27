@@ -11,24 +11,18 @@ onMounted(() => {
     const popper = createPopper(trigger.value, tooltip.value, {
         placement: props.placement,
         modifiers: [
-            {
-                name: "offset",
-                options: {
-                    offset: [0, 8],
-                }
-            }
+            { name: "offset", options: { offset: [0, 8] } },
+            { name: "eventListeners", enabled: false }
         ]
     });
 
     function show() {
         tooltip.value.setAttribute("data-show", "");
 
-        popper.setOptions((options) => ({
-            ...options,
-            modifiers: [
-                { name: "eventListeners", enabled: false }
-            ]
-        }));
+        popper.setOptions((options) => {
+            options.modifiers![1].enabled = true;
+            return options;
+        });
 
         popper.update();
     }
@@ -36,12 +30,10 @@ onMounted(() => {
     function hide() {
         tooltip.value.removeAttribute("data-show");
 
-        popper.setOptions((options) => ({
-            ...options,
-            modifiers: [
-                { name: "eventListeners", enabled: false }
-            ]
-        }));
+        popper.setOptions((options) => {
+            options.modifiers![1].enabled = false;
+            return options;
+        });
     }
 
     ["mouseenter", "focus"].forEach((event) => trigger.value.addEventListener(event, show));
