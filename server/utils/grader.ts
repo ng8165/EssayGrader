@@ -1,12 +1,12 @@
 import { parseEssay, compressEssay } from "./parser";
 
-import wordList from "wordlist-english";
-const dictionary: string[] = wordList["english"];
+import { english as dictionary } from "wordlist-english";
 import nastyNoNos from "../data/nasty.json";
 import prepositions from "../data/prepositions.json";
 
 function binarySearch(arr: string[], key: string): boolean {
-    let left = 0, right = arr.length-1;
+    let left = 1; // "OK" is at position 0; the rest of the list is sorted correctly
+    let right = arr.length-1;
     key = key.toLowerCase();
 
     while (left <= right) {
@@ -27,16 +27,14 @@ const nastyCheck = (word: string): boolean => binarySearch(nastyNoNos, word);
 const prepositionCheck = (word: string): boolean => binarySearch(prepositions, word);
 
 export default function gradeEssay(essayStr: string) {
-    const {wordCnt, essay} = parseEssay(essayStr);
-
-    const feedback = [0, 0, 0, 0, wordCnt, 100];
-    // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
+    const essay = parseEssay(essayStr);
+    let nasty = 0, spelling = 0, start = 0, prep = 0, words = 0, score = 100;
 
     // nasty nonos: 1%
     essay.forEach((sentence) => sentence.forEach((word) => {
         if (word.type === "word" && nastyCheck(word.value)) {
-            feedback[5]--; // score
-            feedback[0]++; // nasty no nos
+            score--;
+            nasty++;
             word.problems.push("Nasty No-No (-1%)")
         }
     }));
@@ -44,8 +42,8 @@ export default function gradeEssay(essayStr: string) {
     // correct spelling: 1%
     essay.forEach((sentence) => sentence.forEach((word) => {
         if (word.type === "word" && !spellcheck(word.value)) {
-            feedback[5]--; // score
-            feedback[1]++; // spelling
+            score--;
+            spelling++;
             word.problems.push("Misspelled Word (-1%)")
         }
     }));
@@ -60,8 +58,8 @@ export default function gradeEssay(essayStr: string) {
     for (let i=0; i<firstWords.length; i++) {
         for (let j=i+1; j<firstWords.length; j++) {
             if (firstWords[i].value === firstWords[j].value && j-i < 3) {
-                feedback[5] -= 3; // score
-                feedback[2]++; // same starting word
+                score -= 3;
+                start++;
                 firstWords[j].problems.push("Sentence Starts With The Same Word (-3%)");
             }
         }
@@ -73,19 +71,24 @@ export default function gradeEssay(essayStr: string) {
         while (i>=0 && sentence[i].type !== "word") i--;
 
         if (prepositionCheck(sentence[i].value)) {
-            feedback[5] -= 5; // score
-            feedback[3]++; // ending with preposition
+            score -= 5;
+            prep++;
             sentence[i].problems.push("Sentence Ends With Preposition (-5%)")
         }
     });
 
     // word count restrictions: 50%
-    if (wordCnt < 500 || wordCnt > 1000)
-        feedback[5] -= 50; // score
+    essay.forEach((sentence) => sentence.forEach((word) => {
+        if (word.type === "word" || word.type === "unknown")
+            words++;
+    }));
+
+    if (words < 500 || words > 1000)
+        score -= 50;
 
     return {
-        score: Math.max(-200, feedback[5]),
+        score: Math.max(-200, score),
         essay: compressEssay(essay),
-        feedback
+        feedback: [nasty, spelling, start, prep, words, score]
     };
 }

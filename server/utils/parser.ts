@@ -10,6 +10,8 @@ function scan(essayStr): Token[] {
     [...essayStr].forEach((c) => {
         if (/[.?!]/.test(c)) {
             tokens.push({ value: c, type: "sentence", problems: [] });
+        } else if (/[,:;]/.test(c)) {
+            tokens.push({ value: c, type: "phrase", problems: [] });
         } else if (/\s/.test(c)) {
             tokens.push({ value: c, type: "space", problems: [] });
         } else if (/\w|[-'‘’]/.test(c)) {
@@ -26,14 +28,8 @@ function scan(essayStr): Token[] {
     return tokens;
 }
 
-export function parseEssay(essayStr: string) {
+export function parseEssay(essayStr: string): Token[][] {
     const tokens = scan(essayStr);
-
-    let wordCnt = 0;
-    tokens.forEach((token) => {
-        if (token.type === "word")
-            wordCnt++;
-    });
 
     const essay: Token[][] = [[]];
     tokens.forEach((token) => {
@@ -46,7 +42,7 @@ export function parseEssay(essayStr: string) {
     if (essay[essay.length-1].length === 0)
         essay.pop();
 
-    return {wordCnt: wordCnt, essay: essay};
+    return essay;
 }
 
 export function compressEssay(essay2D: Token[][]): string[][] {
