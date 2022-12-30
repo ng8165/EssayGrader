@@ -4,9 +4,10 @@ import { english as dictionary } from "wordlist-english";
 import nastyNoNos from "../data/nasty.json";
 import prepositions from "../data/prepositions.json";
 
+dictionary.shift(); // dictionary[0] is "OK"
+
 function binarySearch(arr: string[], key: string): boolean {
-    let left = 1; // "OK" is at position 0; the rest of the list is sorted correctly
-    let right = arr.length-1;
+    let left = 0, right = arr.length-1;
     key = key.toLowerCase();
 
     while (left <= right) {
