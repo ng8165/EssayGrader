@@ -79,7 +79,7 @@ export default function gradeEssay(essayStr: string) {
 
     // word count restrictions: 50%
     essay.forEach((sentence) => sentence.forEach((word) => {
-        if (word.type === "word" || word.type === "unknown")
+        if (word.type === "word")
             words++;
     }));
 

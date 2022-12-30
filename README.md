@@ -78,7 +78,7 @@ Start from 100%. Deduct:
 - 5% for any sentence that ends in a preposition (examples: "for," "of")
     - I used a list (see `server/data/prepositions.json`) and binary searched every `word` token.
 - 50% for any essay not between 500 and 1000 words
-    - I used a for loop to count every single word (every `word` token and `unknown` token).
+    - I used a for loop to count every single `word` token.
 
 The minimum grade for any essay Mr. Adams will give is -200%. For each error, I also add the error (as a string) to the token in the `problems` array.
 
