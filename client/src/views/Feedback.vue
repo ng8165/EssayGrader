@@ -11,7 +11,7 @@ const feedback = ref([0]);
 const essay = ref([[""]]);
 
 async function fetchData() {
-    const res = await fetch(`${import.meta.env.SERVER}/essay/id/${id}`);
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/essay/id/${id}`);
     const { feedback: essayFeedback, essay: essayChunks } = await res.json();
 
     if (res.ok) {

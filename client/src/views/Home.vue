@@ -9,7 +9,7 @@ const findName = ref("");
 const router = useRouter();
 
 async function sendGrade() {
-    const res = await fetch(`${import.meta.env.SERVER}/essay`, {
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/essay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: submitName.value, essay: submitEssay.value })
@@ -22,7 +22,7 @@ async function sendGrade() {
 }
 
 async function findID() {
-    const res = await fetch(`${import.meta.env.SERVER}/essay/name/${findName.value}`);
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/essay/name/${findName.value}`);
     const data = await res.json();
 
     if (res.ok) router.push(`/feedback/${data.id}`);

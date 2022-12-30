@@ -6,7 +6,7 @@ const isLoading = ref(true);
 const grades = ref();
 
 async function fetchData() {
-    const res = await fetch(`${import.meta.env.SERVER}/grades`);
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/grades`);
     const data = await res.json();
 
     if (res.ok) {
@@ -18,7 +18,7 @@ async function fetchData() {
 }
 
 async function deleteEssay(id: string) {
-    const res = await fetch(`${import.meta.env.SERVER}/essay/id/${id}`, { method: "DELETE" });
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/essay/id/${id}`, { method: "DELETE" });
     if (res.ok) fetchData();
     else alert((await res.json()).message);
 }
