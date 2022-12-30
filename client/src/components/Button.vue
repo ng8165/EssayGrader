@@ -14,7 +14,7 @@ button {
 }
 
 .slim {
-    @apply px-3 py-2;
+    @apply px-3 py-3;
 }
 
 .blue {

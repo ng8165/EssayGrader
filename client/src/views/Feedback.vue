@@ -9,15 +9,15 @@ const route = useRoute();
 const { id } = route.params;
 const isLoading = ref(true);
 const feedback = ref([0]);
-const essay = ref("");
+const essay = ref([[""]]);
 
 async function fetchData() {
     const res = await fetch(`${domain}/grade/id/${id}`);
-    const { feedback: essayFeedback, essay: essayHTML } = await res.json();
+    const { feedback: essayFeedback, essay: essayChunks } = await res.json();
 
     if (res.ok) {
         feedback.value = essayFeedback; // 0: nasty no nos, 1: spelling errors, 2: same starting word, 3: ending with preposition, 4: word count, 5: score
-        essay.value = essayHTML;
+        essay.value = essayChunks;
         isLoading.value = false;
     } else {
         router.replace("/404");
@@ -46,9 +46,9 @@ fetchData();
         <p>Hover over highlighted words below to receive more detailed feedback.</p>
 
         <div class="border-l-4 border-neutral-300 p-4 mt-4">
-            <template v-for="token in essay">
-                <Tooltip v-if="token[1].length > 0" placement="top" :title="token[1]" highlight>{{ token[0] }}</Tooltip>
-                <span v-else>{{ token[0] }}</span>
+            <template v-for="[value, problems] in essay">
+                <Tooltip v-if="problems.length > 0" placement="top" :title="problems" highlight>{{ value }}</Tooltip>
+                <span v-else>{{ value }}</span>
             </template>
         </div>
     </div>
