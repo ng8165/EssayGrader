@@ -18,8 +18,8 @@ async function fetchData() {
     }
 }
 
-async function deleteGrade(id: string) {
-    const res = await fetch(`${domain}/grade/id/${id}`, { method: "DELETE" });
+async function deleteEssay(id: string) {
+    const res = await fetch(`${domain}/essay/id/${id}`, { method: "DELETE" });
     if (res.ok) fetchData();
     else alert((await res.json()).message);
 }
@@ -51,7 +51,7 @@ fetchData();
                 </Button>
             </router-link>
 
-            <Button color="red" padding="slim" @click="() => deleteGrade(grade._id)">
+            <Button color="red" padding="slim" @click="() => deleteEssay(grade._id)">
                 <img src="/trash.svg" width="16" height="16" alt="Delete Essay" />
             </Button>
         </li>

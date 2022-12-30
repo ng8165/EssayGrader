@@ -10,7 +10,7 @@ const findName = ref("");
 const router = useRouter();
 
 async function sendGrade() {
-    const res = await fetch(`${domain}/`, {
+    const res = await fetch(`${domain}/essay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: submitName.value, essay: submitEssay.value })
@@ -23,7 +23,7 @@ async function sendGrade() {
 }
 
 async function findID() {
-    const res = await fetch(`${domain}/grade/name/${findName.value}`);
+    const res = await fetch(`${domain}/essay/name/${findName.value}`);
     const data = await res.json();
 
     if (res.ok) router.push(`/feedback/${data.id}`);

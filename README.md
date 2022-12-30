@@ -42,11 +42,11 @@ The backend (located in the folder `/server`) is made with [Node.js](https://nod
 
 The REST API is used to submit essays, send feedback, and view grades. Here is a summary of the API routes (see the file `server/app.ts`):
 
-- `POST /`: used to submit new essays. Uses the server to grade the essay, saves the grade and feedback in the database, and sends back the ID.
+- `POST /essay`: used to submit new essays. Uses the server to grade the essay, saves the grade and feedback in the database, and sends back the ID.
 - `GET /grades`: used by the admin page to get the scores, names, and IDs of submitted essays.
-- `GET /grade/id/:id`: used by the feedback page to get the grade, essay, and feedback by a supplied ID.
-- `GET /grade/name/:name`: searches for an essay through a name and returns its ID.
-- `DELETE /grade/id/:id`: used by the admin page to delete an essay through its ID.
+- `GET /essay/id/:id`: used by the feedback page to get the grade, essay, and feedback by a supplied ID.
+- `GET /essay/name/:name`: searches for an essay through a name and returns its ID.
+- `DELETE /essay/id/:id`: used by the admin page to delete an essay through its ID.
 
 #### Parser
 
@@ -72,7 +72,7 @@ Start from 100%. Deduct:
 - 1% for nasty no-nos (examples: "very," "really," any tense of get)
     - To do this, I used a list (see `server/data/nasty.json`) and binary searched for every `word` token.
 - 1% for any spelling mistake (proper nouns are spelling mistakes)
-    - I used an npm library ([wordlist-english](https://www.npmjs.com/package/wordlist-english)) and binary searched for every `word` token. *(NOTE: this list does not include the character "a")*
+    - I used an npm library ([wordlist-english](https://www.npmjs.com/package/wordlist-english)) and binary searched for every `word` token.
 - 3% for a pair of sentences starting with the same word, separated by no more than 3 sentences in between, exclusive (no double counting)
     - I created a list of the first `word` token of every sentence, then used a nested for loop to iterate through each pair within 3 sentences of each other.
 - 5% for any sentence that ends in a preposition (examples: "for," "of")
@@ -84,7 +84,7 @@ The minimum grade for any essay Mr. Adams will give is -200%. For each error, I 
 
 ### Database
 
-I am using [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/) to allow the backend to communicate with the database. I have written various functions to communicate with the database (see `server/utils/database.ts`). Each collection (called a `grade`) is stored in the `essay-grader` database. Each document stores:
+I am using [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/) to allow the backend to communicate with the database. I have written various functions to communicate with the database (see `server/utils/database.ts`). The documents are stored in a collection called an `essay`, which is stored in the `essay-grader` database. Each document stores:
 
 - `name` (string):  the student’s name
 - `score` (number): the essay score

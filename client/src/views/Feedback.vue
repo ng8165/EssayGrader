@@ -12,7 +12,7 @@ const feedback = ref([0]);
 const essay = ref([[""]]);
 
 async function fetchData() {
-    const res = await fetch(`${domain}/grade/id/${id}`);
+    const res = await fetch(`${domain}/essay/id/${id}`);
     const { feedback: essayFeedback, essay: essayChunks } = await res.json();
 
     if (res.ok) {

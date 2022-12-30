@@ -3,14 +3,14 @@ import { Schema, model, connect, set } from "mongoose";
 set("strictQuery", true);
 connect("mongodb+srv://ng8165:mongodb@cluster0.m0gqwdv.mongodb.net/essay-grader");
 
-type Grade = {
+type Essay = {
     name: string;
     score: number;
     feedback: number[];
     essay: string[][];
 };
 
-const Grade = model<Grade>("grade", new Schema<Grade>({
+const Essay = model<Essay>("essay", new Schema<Essay>({
     name: String,
     score: Number,
     feedback: [Number],
@@ -18,23 +18,23 @@ const Grade = model<Grade>("grade", new Schema<Grade>({
 }));
 
 export async function getGrades() {
-    return await Grade.find().select("name score");
+    return await Essay.find().select("name score");
 }
 
-export async function getGrade(id: string) {
-    return await Grade.findById(id);
+export async function getEssay(id: string) {
+    return await Essay.findById(id);
 }
 
 export async function getID(name: string) {
-    return (await Grade.findOne({ name }).select("")).id;
+    return (await Essay.findOne({ name }).select("")).id;
 }
 
-export async function saveGrade(name: string, score: number, feedback: number[], essay: string[][]): Promise<String> {
-    const grade = new Grade({name, score, feedback, essay});
-    const { id } = await grade.save();
+export async function saveEssay(name: string, score: number, feedback: number[], essay: string[][]): Promise<String> {
+    const doc = new Essay({name, score, feedback, essay});
+    const { id } = await doc.save();
     return id;
 }
 
-export async function deleteGrade(id: string) {
-    await Grade.findByIdAndDelete(id);
+export async function deleteEssay(id: string) {
+    await Essay.findByIdAndDelete(id);
 }
