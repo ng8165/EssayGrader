@@ -53,3 +53,9 @@ fetchData();
         </div>
     </div>
 </template>
+
+<style scoped>
+span {
+    @apply whitespace-pre-line;
+}
+</style>
