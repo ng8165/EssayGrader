@@ -3,14 +3,13 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Button from "../components/Button.vue";
 
-const domain = import.meta.env.PROD ? "https://essay-grader.onrender.com" : "http://localhost:2020";
 const submitName = ref("");
 const submitEssay = ref("");
 const findName = ref("");
 const router = useRouter();
 
 async function sendGrade() {
-    const res = await fetch(`${domain}/essay`, {
+    const res = await fetch(`${import.meta.env.SERVER}/essay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: submitName.value, essay: submitEssay.value })
@@ -23,7 +22,7 @@ async function sendGrade() {
 }
 
 async function findID() {
-    const res = await fetch(`${domain}/essay/name/${findName.value}`);
+    const res = await fetch(`${import.meta.env.SERVER}/essay/name/${findName.value}`);
     const data = await res.json();
 
     if (res.ok) router.push(`/feedback/${data.id}`);
