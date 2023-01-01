@@ -7,60 +7,65 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/essay", (req: Request, res: Response) => {
+app.post("/essay", async (req: Request, res: Response) => {
     const {name, essay: essayStr} = req.body;
     const {score, feedback, essay} = gradeEssay(essayStr);
 
-    db.saveEssay(name, score, feedback, essay).then((id) => {
+    try {
+        const id = await db.saveEssay(name, score, feedback, essay);
         res.status(200).json({ id });
-    }).catch((err) => {
+    } catch(err) {
         console.error("POST /essay", err.message);
-        res.status(500).json({ message: "Submitting your essay for grading failed. Please try again." })
-    });
+        res.status(500).json({ message: "Submitting your essay for grading failed. Please try again." });
+    }
 });
 
-app.get("/grades", (req: Request, res: Response) => {
-    db.getGrades().then((grades) => {
+app.get("/grades", async (req: Request, res: Response) => {
+    try {
+        const grades = await db.getGrades();
         if (grades == null) throw Error("grades not found");
         res.status(200).json(grades);
-    }).catch((err) => {
+    } catch(err) {
         console.error("GET /grades", err.message);
-        res.status(500).json({ message: "Getting the students' essays failed. Please try again." })
-    });
+        res.status(500).json({ message: "Getting the students' essays failed. Please try again." });
+    }
 });
 
-app.get("/essay/id/:id", (req: Request, res: Response) => {
+app.get("/essay/id/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    db.getEssay(id).then((essay) => {
+    try {
+        const essay = await db.getEssay(id);
         if (essay == null) throw Error("essay not found");
         res.status(200).json(essay);
-    }).catch((err) => {
+    } catch(err) {
         console.error(`GET /essay/id/${id}: `, err.message);
-        res.status(500).json({ message: `We couldn't find ID ${id} in our database. Please try again.` })
-    });
+        res.status(500).json({ message: `We couldn't find ID ${id} in our database. Please try again.` });
+    }
 });
 
-app.get("/essay/name/:name", (req: Request, res: Response) => {
+app.get("/essay/name/:name", async (req: Request, res: Response) => {
     const { name } = req.params;
 
-    db.getID(name).then((id) => {
+    try {
+        const id = await db.getID(name);
         res.status(200).json({ id });
-    }).catch((err) => {
+    } catch(err) {
         console.error(`GET /essay/name/${name}: `, err.message);
-        res.status(500).json({ message: `We couldn't find ${name}'s essay. Please try again.` })
-    });
+        res.status(500).json({ message: `We couldn't find ${name}'s essay. Please try again.` });
+    }
 })
 
-app.delete("/essay/id/:id", (req: Request, res: Response) => {
+app.delete("/essay/id/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    db.deleteEssay(id).then(() => {
+    try {
+        await db.deleteEssay(id);
         res.status(204).end();
-    }).catch((err) => {
+    } catch(err) {
         console.error(`DELETE /essay/id/${id}: `, err.message);
-        res.status(500).json({ message: `Deleting the essay with ID ${id} failed. Please try again.` })
-    });
+        res.status(500).json({ message: `Deleting the essay with ID ${id} failed. Please try again.` });
+    }
 });
 
 app.listen(process.env.PORT || 2020);
