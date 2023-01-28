@@ -31,6 +31,8 @@ async function findID() {
 </script>
 
 <template>
+    <div class="alert"><strong>DISCLAIMER</strong>: the free server instance may require ~30 seconds to wake up before this page will respond. Once <a href="https://essay-grader.onrender.com/grades" target="_blank">this page</a> loads, you may use the site. Please see <a href="https://github.com/ng8165/EssayGrader" target="_blank">the repository</a> for more details.</div>
+
     <h2 class="mb-6">Submit Essay</h2>
 
     <form @submit.prevent="sendGrade">
@@ -58,3 +60,17 @@ async function findID() {
         <Button type="submit" color="blue">Find</Button>
     </form>
 </template>
+
+<style scoped>
+a {
+    @apply text-blue-700 underline;
+}
+
+a:hover {
+    @apply brightness-125;
+}
+
+.alert {
+    @apply bg-red-300 p-4 rounded mb-4;
+}
+</style>
